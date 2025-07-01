@@ -1,45 +1,39 @@
-🧠 YOLO ile Gerçek Zamanlı İnsan Tespiti
-Bu proje, YOLOv8 (You Only Look Once) derin öğrenme modeli ile bir webcam görüntüsü üzerinde gerçek zamanlı insan tespiti yapar. 
-Kullanıcı dostu bir arayüz (GUI) ile çalışır ve anlık olarak insan sayısını gösterir.
+# YOLOv8 ile Gerçek Zamanlı İnsan Tespiti
 
-🚀 Özellikler
-✅ Gerçek zamanlı tespit: Webcam görüntüsünde sadece insanları (person sınıfı) algılar.
-🎯 Yüksek doğruluk: YOLOv8 modelinden gelen sonuçlara göre %50 üzeri güvenilirlikteki insanlar sayılır.
-🖼️ Görsel arayüz: Tkinter tabanlı şık ve sade bir kullanıcı arayüzü.
-🟢 Başlat / Durdur butonları ile kullanım kolaylığı.
+Bu proje, [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics) modelini kullanarak bir web kamerası görüntüsü üzerinden gerçek zamanlı olarak insan tespiti yapar ve ekranda tespit edilen insan sayısını gösterir.
 
+## Özellikler
 
-🧰 Gereksinimler
-Aşağıdaki kütüphanelerin kurulu olması gerekir:
->pip install ultralytics opencv-python pillow
-ultralytics kütüphanesi, YOLOv8 modellerini çalıştırmak için gereklidir.
+- YOLOv8 (n, s, m vb.) destekli.
+- COCO veri kümesine göre insan sınıfı (class 0) tespiti.
+- Gerçek zamanlı görüntü işleme ve kutu çizimi.
+- Tespit edilen insan sayısının ekranda gösterimi.
+- `q` tuşuna basarak uygulamayı sonlandırabilirsiniz.
 
-#Kullanımı
+## Gereksinimler
 
-“Başlat” butonuna basarak webcam görüntüsünü başlatın.
-Algılanan insanlar kare içine alınarak ekranda gösterilir.
-Anlık insan sayısı üst kısımda görüntülenir.
-“Durdur” butonuyla işlem durdurulabilir.
+Aşağıdaki kütüphanelerin kurulu olması gerekmektedir:
 
+pip install ultralytics opencv-python
+Ayrıca yolov8n.pt gibi önceden eğitilmiş bir YOLOv8 modeli kullanılmaktadır,
+Model otomatik olarak indirilecektir, ancak manuel olarak da indirip aynı dizine koyabilirsiniz.
 
-🧠 YOLOv8 Hakkında
->>Bu uygulama varsayılan olarak yolov8n.pt (nano model) kullanır. Daha yüksek doğruluk için aşağıdaki modellerle değiştirilebilir:
+Kullanım
 
-yolov8s.pt (small)
-yolov8m.pt (medium)
-yolov8l.pt (large)
-yolov8x.pt (xlarge)
+python insan_tespiti.py
+Kod, bilgisayarınızın varsayılan kamerasını (cv2.VideoCapture(0)) kullanarak her karede insan tespiti yapar.
 
->>Model değiştirmek için şu satırı güncelleyin:
+Kod Açıklaması
+model = YOLO('yolov8n.pt')
+YOLOv8 modelini yükler (alternatif olarak yolov8s.pt, yolov8m.pt de kullanılabilir).
 
-self.model = YOLO('yolov8n.pt')  # yolov8s.pt vb. ile değiştirebilirsiniz,
+cap = cv2.VideoCapture(0)
+Web kamerasından görüntü alınır.
 
-
-🧪 Geliştirici Notları
-
->Sadece cls == 0 (yani insan) sınıfı filtrelenmiştir.
->Tespit güven eşiği (confidence_threshold) %50 olarak ayarlanmıştır.
->Her karede insan sayısı yeniden hesaplanır ve ekrana yazılır.
->Uygulama, sistemdeki varsayılan kamerayı (cv2.VideoCapture(0)) kullanır.
+Her bir karede:
+YOLO ile nesne tespiti yapılır.
+Sadece "insan" sınıfı (class 0) ve güven skoru %50 üzerinde olan nesneler değerlendirilir.
+İnsanlar yeşil dikdörtgenle işaretlenir.
+Ekranın sol üstünde insan sayısı gösterilir.
 
 
